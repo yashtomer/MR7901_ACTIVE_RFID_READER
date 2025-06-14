@@ -1,0 +1,13 @@
+{
+  "start_flag": "55AA",
+  "total_length": 49,
+  "command": "0x0004",
+  "sequence_number": 14,
+  "version": "0x0001",
+  "security_flag": "0x0000",
+  "device_id": "230606101000260\\x00",
+  "data_hex": "8b010011844106d8e89168000000c919060e0a1214",
+  "data_bytes": "8b010011844106d8e89168000000c919060e0a1214",
+  "crc_received": "0x5881",
+  "crc_calculated": "0x5881"
+}
