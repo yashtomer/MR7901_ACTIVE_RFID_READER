@@ -1,88 +1,84 @@
-# RFID TCP Server and Tag Interpretation by Aeologic
+# MR7901 Active RFID Reader Communication Protocol
 
-This project implements a TCP server in Python that listens for data sent by RFID devices, parses the incoming packets using the MR7901 protocol, and outputs structured tag information with interpreted metadata.
+This repository contains a robust Python-based TCP server implementation for parsing and acknowledging data from MR7901 Active RFID Reader devices. It includes registration, login, heartbeat, and tag upload support as per the official protocol specification.
 
-## Features
+## 🚀 Features
 
-* ✅ CRC16-CCITT validation
-* ✅ Parses TLV tag structure (`0x8B01`)
-* ✅ Interprets:
+- Full support for MR7901 device communication protocol
+- CRC16-CCITT checksum verification
+- Tag parsing with SOS alarm status
+- UTC and IST timestamp support
+- MySQL database integration for tag storage
+- Modular architecture with threading support
 
-  * Tag type (e.g., Card Tag, SOS Button Tag)
-  * RSSI signal strength and proximity estimate
-  * SOS alarm status
-  * Timestamp and raw values
-* ✅ Sends appropriate ACKs for registration, login, heartbeat, and tag uploads
-* ✅ Outputs logs with structured JSON for every tag read
+## 📚 Use Cases
 
----
+- Real-time asset tracking
+- Industrial worker safety using SOS cards
+- RFID-based attendance or presence detection
 
-## Example Tag JSON Output
+## 🧠 Protocol Support
 
-```json
-{
-  "tlv_tag_type": "0x8B01",
-  "tlv_length": 17,
-  "antenna_channel": 68,
-  "antenna_channel_description": "Channel 68",
-  "tag_type": 65,
-  "tag_type_hex": "0x41",
-  "tag_type_description": "Card Tag",
-  "tag_id": "06D8E891",
-  "checksum_id": 104,
-  "checksum_description": "Checksum Byte: 104",
-  "carrying_info": "0000",
-  "carrying_info_description": "Empty",
-  "tag_status_byte": 0,
-  "sos_alarm": "Inactive",
-  "rssi": -55,
-  "rssi_interpretation": "Good signal (nearby)",
-  "recv_time_raw": "19060e0c342a",
-  "recv_time": "2025-06-14 12:52:42",
-  "timestamp": "2025-06-14T12:52:42"
-}
+Implements:
+- Terminal Registration (`0x0008`)
+- Terminal Login (`0x0001`)
+- Heartbeat Response (`0x0003`)
+- Tag Upload Response (`0x0004`)
+
+## 📁 Project Structure
+
+```
+├── tlv_rfid_tcp_server_with_registration.py   # Main server script
+├── protocol_docs/                             # Original protocol specs
+├── .env                                       # MySQL credentials
+└── README.md                                  # Project overview
 ```
 
----
+## 💾 Database Schema
 
-## How to Run
+SQL schema to support tag storage is included in the repo under `rfid_tags_schema.sql`.
 
-1. Clone this repo and navigate into the directory.
-2. Make sure Python 3.7+ is installed.
-3. Run the server:
+## ⚙️ Setup
 
 ```bash
-python3 tlv_rfid_tcp_server.py
+# Clone the repo
+git clone https://github.com/yashtomer/MR7901_ACTIVE_RFID_READER.git
+cd MR7901_ACTIVE_RFID_READER
+
+# Install Python dependencies
+pip install -r requirements.txt
+
+# Set up environment variables
+cp .env.example .env  # and edit it
+
+# Start the server
+python3 tlv_rfid_tcp_server_with_registration.py
 ```
 
-The server listens on port `12345` and outputs parsed logs as tags are received.
+## 🔌 Integration
+
+- MySQL 8.0+
+- Python 3.8+
+- Flask or NestJS API (included separately)
+
+## 🧪 Testing
+
+Tested with MR7901 active tags, SOS button tags, and simulated TCP payloads.
+
+## 📸 Screenshots
+
+> Add screenshots of terminal logs, MySQL table rows, and parsed tag examples for better SEO and visuals.
+
+## 📈 SEO Keywords
+
+> RFID Reader, MR7901, Active Tag, Python TCP Server, SOS Card, Tag Parsing, RFID Asset Tracking, Real-Time Tag Reader
+
+## 📄 License
+
+MIT License
 
 ---
 
-## Architecture
+For questions or feature requests, please [open an issue](https://github.com/yashtomer/MR7901_ACTIVE_RFID_READER/issues).
 
-* `client_handler()` handles per-socket communication
-* `parse_packet()` validates and parses packet header + CRC
-* `parse_tag_report()` extracts and interprets tag TLV values
-* Uses `struct` and `binascii` for low-level binary unpacking
-
----
-
-## Frontend Dashboard (Optional)
-
-Refer to the [Web Prompt Document](./rfid_tag_web_prompt.md) for AI-generated design instructions to build a real-time dashboard using React or Tailwind CSS.
-
----
-
-## Use Cases
-
-* Warehouse inventory tracking
-* Asset management
-* Staff attendance monitoring
-* Real-time proximity alert systems
-
----
-
-## License
-
-This project is private and proprietary. Reach out for licensing or integration support.
+Made with 💡 by [Yash Tomer](https://github.com/yashtomer)
